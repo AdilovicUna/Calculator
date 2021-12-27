@@ -64,7 +64,6 @@ void InputParser::parseLine(const string &line)
         validPushBack(expression, s);
         expression.push_back(s);
     }
-    // expressions.push_back(expression);
     handleUnary(expression);
 }
 

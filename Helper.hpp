@@ -43,6 +43,7 @@ public:
         {
             it++;
         }
+        // expressions such as 2&var aren't allowed
         while (it != s.end() && isalpha(*it))
         {
             it++;

@@ -13,6 +13,6 @@ private:
     void validPushBack(const vector<string> &expression,const string &s) const;
     void handleUnary(vector<string> expression);
 public:
-    vector<vector<string>> expressions;cd Des   
+    vector<vector<string>> expressions; 
     void parseLine(const string &line);
 };
