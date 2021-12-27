@@ -1,5 +1,6 @@
 #include <iostream>
 #include "InputParser.hpp"
+#include "ExpressionProcessor.hpp"
 
 bool isSpace(const string &line) 
 {
@@ -38,6 +39,11 @@ int main()
             reader.expressions.push_back(error);
         }
     }
+    // ExpressionProcessor processor;
+    // for(const auto &expr: reader.expressions)
+    // {
+    //     visit([](const auto &x) { cout<<x<<endl; }, processor.processExpression(expr));
+    // }
     cout<<endl;
     cout<<"*****************"<<endl;
     for (size_t i = 0; i < reader.expressions.size(); i++)
@@ -50,3 +56,5 @@ int main()
          cout<<reader.expressions[i][reader.expressions[i].size() - 1]<<"]"<<endl;
     }
 }
+
+ 

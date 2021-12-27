@@ -32,16 +32,15 @@ void InputParser::parseLine(const string &line)
         }
         else if (ch == '=') // appears when assigning vars
         {
-            // = is valid only once, at the beginning
-            // after a var, and there cannot be a space
-            // btw name_of_var and = (s will be empty in that case)
+            // = is valid only once, at the beginning, after a var
+            // there cannot be a space btw name_of_var and = (s will be empty in that case)
             // and s cannot start with $ in this case
             if (!s.empty() && !h.isNumber(s, true) &&
                 !equals_seen && expression.empty() && s[0] != '$')
             {
                 validPushBack(expression, s);
-                s += '=';
                 expression.push_back(s);
+                expression.push_back("=");
                 s.clear();
                 equals_seen = true;
             }
@@ -63,6 +62,11 @@ void InputParser::parseLine(const string &line)
     {
         validPushBack(expression, s);
         expression.push_back(s);
+    }
+    if(expression.size() == 1 && h.isVar(expression[0]) && expression[0][0] != '$')
+    {
+        // just one var is a valid expression only if we call an already assigned var
+        throw exception();
     }
     handleUnary(expression);
 }
