@@ -1,6 +1,6 @@
 #include "InputParser.hpp"
 
-void InputParser::parseLine(string line)
+void InputParser::parseLine(const string &line)
 {
     vector<string> expression;
     bool equals_seen = false;
@@ -102,6 +102,18 @@ void InputParser::handleUnary(vector<string> expression)
             {
                 new_expression.push_back('-' + expression[index + 1]);
                 index += 2;
+                continue;
+            }
+        }
+        // -() or (-())
+        // ()-() doesnt need any additions
+        else if(expression[index] == "-" && expression[index + 1] == "(")
+        {
+            if(index == 0 || expression[index-1] == "(")
+            {
+                new_expression.push_back("-1");
+                new_expression.push_back("*");
+                index++;
                 continue;
             }
         }

@@ -1,6 +1,6 @@
 #pragma once
 
-// #include <variant>
+#include <variant>
 #include "Helper.hpp"
 #include <string>
 #include <vector>
@@ -13,6 +13,6 @@ private:
     void validPushBack(const vector<string> &expression,const string &s) const;
     void handleUnary(vector<string> expression);
 public:
-    vector<vector<string>> expressions;
-    void parseLine(string line);
+    vector<vector<string>> expressions;cd Des   
+    void parseLine(const string &line);
 };
