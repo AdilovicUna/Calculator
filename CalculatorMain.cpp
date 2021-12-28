@@ -16,7 +16,6 @@ bool isSpace(const string &line)
 
 int main()
 {
-
     int N;
     cin>>N;
     cin.ignore(256, '\n');
@@ -24,6 +23,8 @@ int main()
     string line;
     InputParser reader;
     vector<string> error(1,"invalid");
+
+    // parsing input
     while (N-- > 0)
     {
         try
@@ -39,22 +40,29 @@ int main()
             reader.expressions.push_back(error);
         }
     }
-    // ExpressionProcessor processor;
-    // for(const auto &expr: reader.expressions)
-    // {
-    //     visit([](const auto &x) { cout<<x<<endl; }, processor.processExpression(expr));
-    // }
-    cout<<endl;
-    cout<<"*****************"<<endl;
-    for (size_t i = 0; i < reader.expressions.size(); i++)
+
+    // evaluating expressions and printing result
+    try
     {
-        cout<<"[";
-        for (size_t j = 0; j < reader.expressions[i].size() - 1; j++)
+        ExpressionProcessor processor;
+        for(auto &expr: reader.expressions)
         {
-            cout <<reader.expressions[i][j]<<", ";
+            visit([](const auto &x) { cout<<x<<endl; }, processor.processExpression(expr));
         }
-         cout<<reader.expressions[i][reader.expressions[i].size() - 1]<<"]"<<endl;
+    }
+    catch(const exception &e)
+    {
+        cout<<error[0]<<endl;
     }
 }
 
- 
+// cout<<"*****************"<<endl;
+// for (size_t i = 0; i < reader.expressions.size(); i++)
+// {
+//     cout<<"[";
+//     for (size_t j = 0; j < reader.expressions[i].size() - 1; j++)
+//     {
+//         cout <<reader.expressions[i][j]<<", ";
+//     }
+//      cout<<reader.expressions[i][reader.expressions[i].size() - 1]<<"]"<<endl;
+// }
