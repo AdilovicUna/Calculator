@@ -2,11 +2,11 @@
 #include "InputParser.hpp"
 #include "ExpressionProcessor.hpp"
 
-bool isSpace(const string &line) 
+bool isSpace(const string &line)
 {
     for (auto &&ch : line)
     {
-        if(!isspace(ch))
+        if (!isspace(ch))
         {
             return false;
         }
@@ -17,42 +17,46 @@ bool isSpace(const string &line)
 int main()
 {
     int N;
-    cin>>N;
+    cin >> N;
     cin.ignore(256, '\n');
 
     string line;
     InputParser reader;
-    vector<string> error(1,"invalid");
+    vector<string> error(1, "invalid");
 
     // parsing input
     while (N-- > 0)
     {
         try
         {
-            getline(cin,line);
-            if(isSpace(line)) // line with only whitespace is invalid as well
+            getline(cin, line);
+            if (isSpace(line)) // line with only whitespace is invalid as well
             {
                 throw exception();
             }
             reader.parseLine(line);
-        }catch (const exception &e)
+        }
+        catch (const exception &e)
         {
             reader.expressions.push_back(error);
         }
     }
 
     // evaluating expressions and printing result
-    try
+    ExpressionProcessor processor;
+    for (auto &expr : reader.expressions)
     {
-        ExpressionProcessor processor;
-        for(auto &expr: reader.expressions)
+        try
         {
-            visit([](const auto &x) { cout<<x<<endl; }, processor.processExpression(expr));
+
+            visit([](const auto &x)
+                  { cout << x << endl; },
+                  processor.processExpression(expr));
         }
-    }
-    catch(const exception &e)
-    {
-        cout<<error[0]<<endl;
+        catch (const exception &e)
+        {
+            cout << error[0] << endl;
+        }
     }
 }
 
