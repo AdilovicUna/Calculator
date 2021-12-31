@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Helper.hpp"
+#include "ObjectIdentifier.hpp"
 #include <string>
 #include <vector>
-using namespace std;
 
 class InputParser
 {
 private:
-    Helper h;
-    void validPushBack(const vector<string> &expression,const string &s) const;
+    ObjectIdentifier objId;
+    void validObj(const vector<string> &expression, const string &s) const;
     void handleUnary(vector<string> expression);
+
 public:
-    vector<vector<string>> expressions; 
+    vector<vector<string>> expressions;
     void parseLine(const string &line);
 };

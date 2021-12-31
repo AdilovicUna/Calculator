@@ -5,45 +5,23 @@
 #include <vector>
 #include <map>
 #include <stack>
-#include "Helper.hpp"
-
-using namespace std;
-
-#include<iostream>
+#include "ObjectIdentifier.hpp"
 
 template <typename T>
 class InfixEvaluator
 {
 private:
-    Helper h;
+    ObjectIdentifier objId;
+
+    stack<T> values;
+    stack<char> ops;
+
     T getNumValue(const string &i);
     T getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars);
 
-    inline int precOp(char op)
-    {
-        if (op == '+' || op == '-')
-            return 1;
-        if (op == '*' || op == '/' || op == '%')
-            return 2;
-        return 0;
-    }
-
-    inline T applyOp(T a, T b, char op)
-    {
-        switch (op)
-        {
-        case '+':
-            return a + b;
-        case '-':
-            return a - b;
-        case '*':
-            return a * b;
-        case '/':
-            return a / b;
-        default:
-            throw exception();
-        }
-    }
+    T applyOp(T a, T b, char op);
+    int precOp(char op);
+    void executeBinary();
 
 public:
     T result;

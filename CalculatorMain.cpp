@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "InputParser.hpp"
 #include "ExpressionProcessor.hpp"
 
@@ -14,11 +15,34 @@ bool isSpace(const string &line)
     return true;
 }
 
+bool isNum(const string &line)
+{
+    for (auto &&ch : line)
+    {
+        if (!isdigit(ch))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 int main()
 {
-    int N;
-    cin >> N;
-    cin.ignore(256, '\n');
+    string firstLine;
+    getline(cin, firstLine);
+
+    // check the correctness of the first line
+    if (!isNum(firstLine))
+    {
+        cout << "Invalid number of lines" << endl;
+        return 0;
+    }
+
+    // convert to size_t
+    stringstream sstream(firstLine);
+    size_t N;
+    sstream >> N;
 
     string line;
     InputParser reader;
@@ -42,31 +66,22 @@ int main()
         }
     }
 
-    // evaluating expressions and printing result
+    cout << "Results: " << endl;
+
+    // proccess and print the output
     ExpressionProcessor processor;
     for (auto &expr : reader.expressions)
     {
         try
         {
-
             visit([](const auto &x)
                   { cout << x << endl; },
                   processor.processExpression(expr));
         }
         catch (const exception &e)
         {
+            // if something goes wrong, we print invalid
             cout << error[0] << endl;
         }
     }
 }
-
-// cout<<"*****************"<<endl;
-// for (size_t i = 0; i < reader.expressions.size(); i++)
-// {
-//     cout<<"[";
-//     for (size_t j = 0; j < reader.expressions[i].size() - 1; j++)
-//     {
-//         cout <<reader.expressions[i][j]<<", ";
-//     }
-//      cout<<reader.expressions[i][reader.expressions[i].size() - 1]<<"]"<<endl;
-// }

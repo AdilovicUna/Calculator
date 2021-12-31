@@ -5,95 +5,70 @@ InfixEvaluator<T>::InfixEvaluator(const vector<string> &expr, map<string, pair<i
 {
     try
     {
-        stack<T> values;
-        stack<char> ops;
-
         for (const auto &e : expr)
         {
             if (e == "(")
             {
-            //cout<<"7"<<endl;
                 ops.push(e[0]);
             }
-            else if (h.isNumber(e))
+            else if (objId.isNumber(e))
             {
-            //cout<<"8"<<endl;
                 values.push(getNumValue(e));
             }
-            else if (h.isVar(e))
+            else if (objId.isVar(e))
             {
-            //cout<<"9"<<endl;
                 values.push(getVarValue(e, vars));
             }
             else if (e == ")")
             {
-                //get everything inside ()
-            //cout<<"10"<<endl;
-                while (!ops.empty() && ops.top() != '(')
+                // we have an extra - ) -
+                if (ops.empty())
                 {
-            //cout<<"11"<<endl;
-                    T v2 = values.top();
-                    values.pop();
-
-                    T v1 = values.top();
-                    values.pop();
-
-                    char op = ops.top();
-                    ops.pop();
-
-                    values.push(applyOp(v1, v2, op));
+                    throw exception();
                 }
 
+                //get everything inside ()
+                while (!ops.empty() && ops.top() != '(')
+                {
+                    executeBinary();
+                }
+
+                // pop - ( -
                 if (!ops.empty())
                     ops.pop();
             }
             else
             {
-            //cout<<"12"<<endl;
                 // find op with biggest precidence
                 while (!ops.empty() && precOp(ops.top()) >= precOp(e[0]))
                 {
-            //cout<<"13"<<endl;
-                    T v2 = values.top();
-                    values.pop();
-
-                    T v1 = values.top();
-                    values.pop();
-
-                    char op = ops.top();
-                    ops.pop();
-
-                    values.push(applyOp(v1, v2, op));
+                    executeBinary();
                 }
                 ops.push(e[0]);
             }
         }
+        //get rest of the operators
         while (!ops.empty())
         {
-            //cout<<"14"<<endl;
-            T v2 = values.top();
-            values.pop();
+            executeBinary();
+        }
 
-            T v1 = values.top();
-            values.pop();
-
-            char op = ops.top();
-            ops.pop();
-
-            values.push(applyOp(v1, v2, op));
+        // we have some extra numbers
+        if (values.size() != 1)
+        {
+            throw exception();
         }
         result = values.top();
     }
     catch (const exception &e)
     {
-            //cout<<"2"<<endl;
         throw exception();
     }
 }
+
 template <typename T>
 T InfixEvaluator<T>::getNumValue(const string &i)
 {
-            //cout<<"5"<<endl;
     if (is_same_v<T, int>)
     {
         return stoi(i);
@@ -106,14 +81,12 @@ T InfixEvaluator<T>::getNumValue(const string &i)
     {
         return stod(i);
     }
-            //cout<<"3"<<endl;
     throw exception();
 }
 
 template <typename T>
 T InfixEvaluator<T>::getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars)
 {
-            //cout<<"6"<<endl;
     switch (vars[i].first)
     {
     case 0:
@@ -123,7 +96,72 @@ T InfixEvaluator<T>::getVarValue(const string &i, map<string, pair<int, variant<
     case 2:
         return getNumValue(to_string(get<double>(vars[i].second)));
     default:
-            //cout<<"4"<<endl;
+        throw exception();
+    }
+}
+
+template <typename T>
+T InfixEvaluator<T>::applyOp(T a, T b, char op)
+{
+    switch (op)
+    {
+    case '+':
+        return a + b;
+    case '-':
+        return a - b;
+    case '*':
+        return a * b;
+    case '/':
+        if (b == 0)
+        {
+            throw exception();
+            break;
+        }
+        return a / b;
+    case '%':
+        if (b == 0 || is_same_v<T, float> || is_same_v<T, double>)
+        {
+            throw exception();
+            break;
+        }
+        return int(a) % int(b);
+    default:
+        throw exception();
+    }
+}
+
+template <typename T>
+int InfixEvaluator<T>::precOp(char op)
+{
+    if (op == '+' || op == '-')
+        return 1;
+    if (op == '*' || op == '/' || op == '%')
+        return 2;
+    return 0;
+}
+
+template <typename T>
+void InfixEvaluator<T>::executeBinary()
+{
+    try
+    {
+        if (values.size() < 2 || ops.empty())
+        {
+            throw exception();
+        }
+        T v2 = values.top();
+        values.pop();
+
+        T v1 = values.top();
+        values.pop();
+
+        char op = ops.top();
+        ops.pop();
+
+        values.push(applyOp(v1, v2, op));
+    }
+    catch (const exception &e)
+    {
         throw exception();
     }
 }
