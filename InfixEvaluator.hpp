@@ -16,8 +16,8 @@ private:
     stack<T> values;
     stack<char> ops;
 
-    T getNumValue(const string &i);
-    T getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars);
+    T getNumValue(const string &i) const;
+    T getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars) const;
 
     T applyOp(T a, T b, char op);
     int precOp(char op);

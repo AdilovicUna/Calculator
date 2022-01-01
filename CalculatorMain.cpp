@@ -58,6 +58,8 @@ int main()
             {
                 throw exception();
             }
+            for_each(line.begin(), line.end(), [](char &c)
+                     { c = ::tolower(c); });
             reader.parseLine(line);
         }
         catch (const exception &e)
@@ -65,8 +67,6 @@ int main()
             reader.expressions.push_back(error);
         }
     }
-
-    cout << "Results: " << endl;
 
     // proccess and print the output
     ExpressionProcessor processor;

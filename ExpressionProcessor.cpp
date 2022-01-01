@@ -34,7 +34,7 @@ variant<int, float, double, string> ExpressionProcessor::processExpression(vecto
     string assign_to;
     if (expr[1] == "=")
     {
-        if (vars.find(expr[0]) != vars.end())
+        if (vars.find("$" + expr[0]) != vars.end()) // if already assigned to
         {
             throw exception();
         }
@@ -79,7 +79,7 @@ variant<int, float, double, string> ExpressionProcessor::processExpression(vecto
     throw exception();
 }
 
-int ExpressionProcessor::getExprType(const vector<string> &expr)
+int ExpressionProcessor::getExprType(const vector<string> &expr) const
 {
     // we want to find the "biggest" type in order to convert everything to it
     // eg. int + float will become float + float
@@ -95,9 +95,10 @@ int ExpressionProcessor::getExprType(const vector<string> &expr)
         {
             // since we loop trought the whole expression, we are sure every var exists
             // unless this function doesn't throw an exception
-            if (vars.find(e) != vars.end())
+            auto it = vars.find(e);
+            if (it != vars.end())
             {
-                curr_type = vars[e].first;
+                curr_type = it->second.first;
             }
             else
             {
@@ -112,7 +113,7 @@ int ExpressionProcessor::getExprType(const vector<string> &expr)
     return type != -1 ? type : throw exception();
 }
 
-int ExpressionProcessor::getNumberType(const string &num)
+int ExpressionProcessor::getNumberType(const string &num) const
 {
     if (num.find('.') != string::npos)
     {

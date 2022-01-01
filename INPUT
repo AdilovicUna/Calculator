@@ -4,10 +4,10 @@ a=3+ 2
 $a + 2
 fed=    2.3 -2
 b= 2 +   311
- c= 2  + $fed
+ c= 2  + $feD
 2244324.4 + $b * 2 / 3 *(34 - -2)
 2244324.4 + $b * 2 / 3 (34 - -2)
-d= -3 +     -5
+D= -3 +     -5
     -5 + 2
 3 +-2
 -(3 + 34)
@@ -43,3 +43,31 @@ w= 1 - c$w
 ((( 3 - 2) + 4)
 
 output: first 16 valid, second 26 invalid
+
+
+Input
+11
+-3
+12.3 + 3 * 2
+x=20 / (10-2)
+y=x
+y=$x
+y=$x * $x
+xyz=         -(1 + 2 - ((-3) * (2)))
+wdisisususus
+$Y * $X
+ z=3
+zz=$z
+
+Output
+-3
+18.3
+2
+invalid
+2
+invalid
+-9
+invalid
+4
+invalid
+invalid

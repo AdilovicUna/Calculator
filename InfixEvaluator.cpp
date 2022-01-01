@@ -58,6 +58,7 @@ InfixEvaluator<T>::InfixEvaluator(const vector<string> &expr, map<string, pair<i
         {
             throw exception();
         }
+        // asign the result
         result = values.top();
     }
     catch (const exception &e)
@@ -67,7 +68,7 @@ InfixEvaluator<T>::InfixEvaluator(const vector<string> &expr, map<string, pair<i
 }
 
 template <typename T>
-T InfixEvaluator<T>::getNumValue(const string &i)
+T InfixEvaluator<T>::getNumValue(const string &i) const
 {
     if (is_same_v<T, int>)
     {
@@ -85,7 +86,7 @@ T InfixEvaluator<T>::getNumValue(const string &i)
 }
 
 template <typename T>
-T InfixEvaluator<T>::getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars)
+T InfixEvaluator<T>::getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars) const
 {
     switch (vars[i].first)
     {

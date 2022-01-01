@@ -6,6 +6,7 @@ void InputParser::parseLine(const string &line)
     bool equals_seen = false;
     string obj;
     string curr;
+
     for (const auto &ch : line)
     {
         if (isspace(ch)) // we don't care about whitespace
@@ -87,7 +88,7 @@ void InputParser::validObj(const vector<string> &expression, const string &obj) 
     }
 }
 
-void InputParser::handleUnary(vector<string> expression)
+void InputParser::handleUnary(vector<string> &expression)
 {
     vector<string> new_expression;
     size_t index = 0;
@@ -106,7 +107,7 @@ void InputParser::handleUnary(vector<string> expression)
             }
             // previous elem of expression was a op or a var assignment,
             else if (objId.isOp(expression[index - 1][0]) ||
-                     (index == 2 && expression[1] == "="))
+                     (index == 2 && expression[index - 1] == "="))
             {
                 new_expression.push_back('-' + expression[index + 1]);
                 index += 2;
@@ -117,7 +118,7 @@ void InputParser::handleUnary(vector<string> expression)
         // ()-() doesnt need any additions
         else if (expression[index] == "-" && expression[index + 1] == "(")
         {
-            if (index == 0 || expression[index - 1] == "(")
+            if (index == 0 || expression[index - 1] == "(" || (index == 2 && expression[index - 1] == "="))
             {
                 new_expression.push_back("-1");
                 new_expression.push_back("*");

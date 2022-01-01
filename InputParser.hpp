@@ -3,13 +3,14 @@
 #include "ObjectIdentifier.hpp"
 #include <string>
 #include <vector>
+#include <algorithm>
 
 class InputParser
 {
 private:
     ObjectIdentifier objId;
     void validObj(const vector<string> &expression, const string &s) const;
-    void handleUnary(vector<string> expression);
+    void handleUnary(vector<string> &expression);
 
 public:
     vector<vector<string>> expressions;

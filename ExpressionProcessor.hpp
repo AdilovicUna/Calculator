@@ -10,8 +10,8 @@ private:
     // maps name of a var with its type (int representation) and the value
     // int = 0, double = 1, float = 2
     map<string, pair<int, variant<int, float, double>>> vars;
-    int getExprType(const vector<string> &expr);
-    int getNumberType(const string &num);
+    int getExprType(const vector<string> &expr) const;
+    int getNumberType(const string &num) const;
 
 public:
     variant<int, float, double, string> processExpression(vector<string> &expr);
