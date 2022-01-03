@@ -68,7 +68,7 @@ InfixEvaluator<T>::InfixEvaluator(const vector<string> &expr, map<string, pair<i
 }
 
 template <typename T>
-T InfixEvaluator<T>::getNumValue(const string &i) const
+const T InfixEvaluator<T>::getNumValue(const string &i) const
 {
     if (is_same_v<T, int>)
     {
@@ -86,7 +86,7 @@ T InfixEvaluator<T>::getNumValue(const string &i) const
 }
 
 template <typename T>
-T InfixEvaluator<T>::getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars) const
+const T InfixEvaluator<T>::getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars) const
 {
     switch (vars[i].first)
     {
@@ -102,7 +102,7 @@ T InfixEvaluator<T>::getVarValue(const string &i, map<string, pair<int, variant<
 }
 
 template <typename T>
-T InfixEvaluator<T>::applyOp(T a, T b, char op)
+const T InfixEvaluator<T>::applyOp(T a, T b, char op) const
 {
     switch (op)
     {
@@ -132,7 +132,7 @@ T InfixEvaluator<T>::applyOp(T a, T b, char op)
 }
 
 template <typename T>
-int InfixEvaluator<T>::precOp(char op)
+int InfixEvaluator<T>::precOp(char op) const
 {
     if (op == '+' || op == '-')
         return 1;

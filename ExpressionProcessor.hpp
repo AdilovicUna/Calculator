@@ -14,5 +14,5 @@ private:
     int getNumberType(const string &num) const;
 
 public:
-    variant<int, float, double, string> processExpression(vector<string> &expr);
+    const variant<int, float, double, string> processExpression(vector<string> &expr);
 };

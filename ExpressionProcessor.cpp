@@ -1,6 +1,6 @@
 #include "ExpressionProcessor.hpp"
 
-variant<int, float, double, string> ExpressionProcessor::processExpression(vector<string> &expr)
+const variant<int, float, double, string> ExpressionProcessor::processExpression(vector<string> &expr)
 {
     if (expr.size() == 1)
     {

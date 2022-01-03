@@ -16,11 +16,11 @@ private:
     stack<T> values;
     stack<char> ops;
 
-    T getNumValue(const string &i) const;
-    T getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars) const;
+    const T getNumValue(const string &i) const;
+    const T getVarValue(const string &i, map<string, pair<int, variant<int, float, double>>> &vars) const;
 
-    T applyOp(T a, T b, char op);
-    int precOp(char op);
+    const T applyOp(T a, T b, char op) const;
+    int precOp(char op) const;
     void executeBinary();
 
 public:
