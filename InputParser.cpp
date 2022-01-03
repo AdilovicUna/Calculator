@@ -6,11 +6,20 @@ void InputParser::parseLine(const string &line)
     bool equals_seen = false;
     string obj;
     string curr;
-
+    bool nonSpaceSeen = false;
     for (const auto &ch : line)
     {
+        if(!isspace(ch))
+        {
+            nonSpaceSeen = true;
+        }
+
         if (isspace(ch)) // we don't care about whitespace
         {
+            if(!nonSpaceSeen) // first char has to be non-whitespace
+            {
+                throw exception();
+            }
             if (!obj.empty()) // but we want to push whatever was in our obj
             {
                 validObj(expression, obj);
