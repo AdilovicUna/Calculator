@@ -1,4 +1,4 @@
-#include "InfixEvaluator.hpp"
+#include "Include/InfixEvaluator.hpp"
 
 template <typename T>
 InfixEvaluator<T>::InfixEvaluator(const vector<string> &expr, map<string, pair<int, variant<int, float, double>>> &vars)
